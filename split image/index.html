@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Cards</title>
+  <style>
+    .card {
+      display: inline-block;
+      width: 200px;
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      transition: opacity 0.5s;
+    }
+  </style>
+</head>
+<body>
+  <input type="number" id="rows" placeholder="Enter the number of rows">
+  <input type="number" id="columns" placeholder="Enter the number of columns">
+  <button onclick="splitImage()">Split Image</button>
+  <div id="cardContainer"></div>
+
+  <script>
+    function splitImage() {
+      var imageSrc = "image.jpg";
+      var rows = parseInt(document.getElementById("rows").value);
+      var columns = parseInt(document.getElementById("columns").value);
+
+      var cardContainer = document.getElementById("cardContainer");
+      cardContainer.innerHTML = "";
+
+      var image = new Image();
+      image.src = imageSrc;
+      image.onload = function() {
+        var width = image.width;
+        var height = image.height;
+        var cardWidth = width / columns;
+        var cardHeight = height / rows;
+
+        for (var y = 0; y < rows; y++) {
+          for (var x = 0; x < columns; x++) {
+            var left = x * cardWidth;
+            var top = y * cardHeight;
+            var right = left + cardWidth;
+            var bottom = top + cardHeight;
+
+            var card = document.createElement("div");
+            card.className = "card";
+            card.style.backgroundImage = "url(" + imageSrc + ")";
+            card.style.backgroundPosition = -left + "px " + -top + "px";
+            card.style.width = cardWidth + "px";
+            card.style.height = cardHeight + "px";
+            card.addEventListener("click", function() {
+              this.style.opacity = 0;
+            });
+
+            cardContainer.appendChild(card);
+          }
+        }
+      };
+    }
+  </script>
+</body>
+</html>
